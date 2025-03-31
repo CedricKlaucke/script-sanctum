@@ -1,29 +1,26 @@
-import axios from "axios";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { getRequest } from "../services/http";
 
-async function getRoutes(): Promise<RouteRecordRaw[]> {
-    const importedRoutes: RouteRecordRaw[] = [];
-
+async function getRoutes() {
     try {
-        const { data } = await axios.get("/api/domains");
+        const { data } = await getRequest("domains");
         const domains: string[] = data.domains;
 
-        for (const key in domains) {
-            const domain = domains[key];
-
+        const importedRoutes: RouteRecordRaw[] = await Promise.all(domains.map(async (domain) => {
             try {
                 const { routes } = await import(`../domains/${domain}/routes.ts`);
-
-                importedRoutes.push(...routes);
+                return routes;
             } catch (error) {
                 console.error(`Failed to import routes for domain: ${domain}`, error);
+                return [];
             }
-        }
+        }));
+
+        return importedRoutes.flat();
     } catch (error) {
         console.error("Failed to fetch domains from API", error);
+        return [];
     }
-
-    return importedRoutes;
 }
 
 async function createAppRouter() {
