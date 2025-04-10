@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { AxiosError } from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import errorHandler from "../../../helpers/errorHandler";
 import UserForm from "../components/UsersForm.vue";
 import { userStore } from "../store";
 import { User } from "../types";
@@ -15,9 +15,7 @@ const handleSubmit = async (createdUser: User) => {
         await userStore.actions.create(createdUser);
         router.push({ name: "users.overview" });
     } catch (error) {
-        if (error instanceof AxiosError && error.response?.status === 422) {
-            errors.value = error.response?.data.errors;
-        }
+        errors.value = errorHandler(error);
     }
 };
 </script>

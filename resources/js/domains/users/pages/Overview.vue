@@ -10,7 +10,7 @@ const users = userStore.getters.all;
 <template>
     <UsersTable
         class="max-w-lg mx-auto mt-16"
-        title="Authors overview"
+        title="Users overview"
         :users="users"
     />
 </template>

@@ -1,4 +1,11 @@
+<script setup lang="ts">
+import SideMenu from './components/SideMenu.vue';
+
+</script>
+
 <template>
+    <SideMenu />
+
     <main>
         <RouterView />
     </main>
