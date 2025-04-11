@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-
-interface User {
-    email: string;
-    password: string;
-}
+import { Credentials } from "../types";
 
 interface Errors {
     email?: string;
@@ -12,7 +8,7 @@ interface Errors {
 }
 
 const props = defineProps<{
-    user: User;
+    user: Credentials;
     errors?: Errors;
 }>();
 
