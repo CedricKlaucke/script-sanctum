@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { onMounted } from "vue";
 import { getCurrentUser, getLoggedInUser, logout } from "../services/auth";
 
-getCurrentUser();
+onMounted(async () => {
+    await getCurrentUser();
+});
 
 const items = [
     {
@@ -11,7 +13,7 @@ const items = [
     },
 ];
 
-const user = computed(() => getLoggedInUser.value);
+const user = getLoggedInUser;
 </script>
 
 <template>
@@ -25,13 +27,17 @@ const user = computed(() => getLoggedInUser.value);
 
             <span class="mx-auto" />
 
-            <li v-if="!user" class="pr-2 my-auto">
-                <RouterLink :to="{ name: 'auth.login' }">Login</RouterLink>
-            </li>
+            <a @click="console.log(getLoggedInUser)">Test</a>
 
-            <li v-if="user" class="pr-2 my-auto">
-                <span>welcome {{ user.name }} | </span>
-                <a @click="logout()" class="cursor-pointer">Logout</a>
+            <li class="pr-2 my-auto">
+                <template v-if="user">
+                    <span>welcome {{ user.name }} | </span>
+                    <a @click="logout()" class="cursor-pointer">Logout</a>
+                </template>
+                
+                <template v-else>
+                    <RouterLink :to="{ name: 'auth.login' }">Login</RouterLink>
+                </template>
             </li>
         </ul>
     </nav>

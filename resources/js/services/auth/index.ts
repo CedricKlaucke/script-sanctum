@@ -22,4 +22,5 @@ export const getCurrentUser = async () => {
     const { data } = await getRequest("/auth/user");
     if (!data) return;
     loggedInUser.value = data;
+    return loggedInUser.value;
 };

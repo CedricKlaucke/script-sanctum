@@ -17,7 +17,7 @@ Route::patch('/users/{user}', [UserController::class, 'update']);
 Route::delete('/users/{user}', [UserController::class, 'destroy']);
 
 // auth
-Route::get('/auth/user', [AuthController::class, 'show']);
+Route::get('/auth/user', [AuthController::class, 'show'])->middleware("auth:sanctum");
 Route::post('/auth/login', [AuthController::class, 'create']);
 Route::post('/auth/logout', [AuthController::class, 'destroy']);
 

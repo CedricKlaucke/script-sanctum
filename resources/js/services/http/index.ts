@@ -10,6 +10,7 @@ const http = axios.create({
     },
 });
 
+
 export const getRequest = (endpoint: string) => http.get(endpoint);
 
 export const postRequest = <Type>(endpoint: string, data: Type) =>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import axios from "axios";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import errorHandler from "../../../helpers/errorHandler";
@@ -12,6 +13,7 @@ const errors = ref({});
 
 const handleSubmit = async (credentials: Credentials) => {
     try {
+        await axios.get('/sanctum/csrf-cookie');
         await login(credentials);
         router.push({ name: "users.overview" });
     } catch (error) {
